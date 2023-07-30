@@ -1,2 +1,2 @@
 # nixos
-My nixos configuration e
+My nixos configuration

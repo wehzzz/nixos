@@ -1,4 +1,6 @@
 #!/bin/sh
 pushd ~/.dotfiles
-home-manager switch -f ./users/tinmar/home.nix
+#nix build .#homeConfigurations.tinmar.activationPackage
+#./result/activate
+home-manager switch --flake . 
 popd

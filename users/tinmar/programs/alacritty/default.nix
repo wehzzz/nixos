@@ -1,7 +1,7 @@
 { pkgs, specialArgs, ... }:
 
 let
-  fontSize = if specialArgs.hidpi then 10 else 8;
+  fontSize = 8;
 in
 {
   programs.alacritty = {
@@ -39,7 +39,7 @@ in
         }
       ];
       selection.save_to_clipboard = true;
-      shell.program = "${pkgs.fish}/bin/fish";
+      shell.program = "${pkgs.zsh}/bin/zsh";
       window = {
         decorations = "full";
         opacity = 0.85;

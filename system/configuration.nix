@@ -103,21 +103,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-     gimp vim wget firefox git neofetch alacritty rofi polybar i3 feh discord zsh oh-my-zsh gcc gnumake binutils file tree zip unzip patchelf 
-     picom geany vscode pciutils flameshot
   ];
 
-
-  nixpkgs.overlays = [
-    (self: super: {
-      discord = super.discord.overrideAttrs (
-        _: { src = builtins.fetchTarball {
-          url = "https://discord.com/api/download?platform=linux&format=tar.gz";
-          sha256 = "0pml1x6pzmdp6h19257by1x5b25smi2y60l1z40mi58aimdp59ss";          
-        }; }
-      );
-    })
-  ];
 
   # Enable i3
   environment.pathsToLink = [ "/libexec" ];

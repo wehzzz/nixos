@@ -1,46 +1,84 @@
 { config, pkgs, ... }:
 
 {
+ 
+  imports = [
+    ./programs
+  ]; 
+
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = "tinmar";
   home.homeDirectory = "/home/tinmar";
-
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  #
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
-  home.stateVersion = "23.05"; # Please read the comment before changing.
+  home.stateVersion = "23.05"; # Do not change value.
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # pkgs.hello
-
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
-
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
+    #System command
     htop
-    alacritty
+    wget
+    neofetch
+    feh
+    binutils
+    file
+    tree
+    zip
+    unzip
+    patchelf
+    pciutils
+    flameshot
+    unrar
+    findutils
+    p7zip
+
+    #command line env
+    zsh
+    oh-my-zsh
+
+    #dev
+    git
     vim
     git
-    git-crypt
     gnupg
+    gcc
+    gnumake
+    vscode
+    docker-compose
+
+    #desktop
+    firefox
+    rofi
+    polybar
+    i3
+    geany
+    discord
+    picom
+    
+    #sound
+    pavucontrol
+    playerctl    
+ 
+    #misc
+    powerline-fonts
+    roboto
+    noto-fonts-emoji
   ];
+
+  nixpkgs.overlays = [
+    (self: super: {
+      discord = super.discord.overrideAttrs (
+        _: { src = builtins.fetchTarball {
+          url = "https://discord.com/api/download?platform=linux&format=tar.gz";
+          sha256 = "0pml1x6pzmdp6h19257by1x5b25smi2y60l1z40mi58aimdp59ss";
+        }; }
+      );
+    })
+  ];   
+
+  programs = {
+    home-manager.enable = true;
+  }; 
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -68,9 +106,6 @@
   #
   # if you don't want to manage your shell through Home Manager.
   home.sessionVariables = {
-    # EDITOR = "emacs";
+    EDITOR = "vim";
   };
-
-  # Let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
 }

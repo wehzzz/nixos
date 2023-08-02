@@ -3,5 +3,6 @@
     ./alacritty
     ./zsh
     ./git
+    ./gpg
   ];
 }

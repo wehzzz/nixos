@@ -41,8 +41,7 @@
     vim
     git
     gnupg
-    pinentry_qt
-    git_crypt
+    pinentry
     gcc
     gnumake
     vscode

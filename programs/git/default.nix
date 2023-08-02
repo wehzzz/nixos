@@ -4,9 +4,20 @@
   programs.git = {
     enable = true;
     lfs.enable = true;
+    
     userEmail = "martin.levesque@epita.fr";
     userName = "Martin Levesque";
-    delta.enable = true;
+    signing = {
+      key = "18545AB32293B04D";
+      signByDefault = true;
+    };
+    
+    delta = {
+      enable = true;
+      options = {
+	side-by-side = true;
+ 	dark = true;
+      };
 
     ignores = [ "*~" "*.swp" ".o" ".d" "format_marker"];
 

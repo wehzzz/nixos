@@ -18,6 +18,7 @@
 	side-by-side = true;
  	dark = true;
       };
+    };
 
     ignores = [ "*~" "*.swp" ".o" ".d" "format_marker"];
 

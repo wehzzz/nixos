@@ -20,9 +20,7 @@
 
     shellAliases = {
       ll = "ls -l";
-      dodo = "shutdown now";
-      lz = "lazygit";
-      ufda = "echo 'use flake' | tee .envrc && direnv allow";
+      lsa = "ls -lah";
     };
 
     oh-my-zsh = {

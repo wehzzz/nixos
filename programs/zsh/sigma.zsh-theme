@@ -8,4 +8,4 @@ PROMPT='  %{$fg_bold[blue]%}>%{$fg_bold[cyan]%}>%{$fg_bold[white]%}> %{$fg_bo
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[green]%}[%{$fg[yellow]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
 ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[green]%}] %{$fg[yellow]%}⚡ %{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[green]%}]"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[green]%}] %{$reset_color%}"

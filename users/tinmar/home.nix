@@ -60,11 +60,11 @@
     playerctl    
  
     #misc
-    powerline-fonts
+    nerdfonts
     roboto
-    noto-fonts-emoji
-  ];
+    ];
 
+  fonts.fontconfig.enable = true;
   nixpkgs.overlays = [
     (self: super: {
       discord = super.discord.overrideAttrs (

@@ -1,15 +1,11 @@
-ZSH_THEME_GIT_PROMPT_PREFIX=" - %F{blue}[%F{red}"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%F{blue}]%f"
-ZSH_THEME_GIT_PROMPT_DIRTY=" %F{green}+"
-ZSH_THEME_GIT_PROMPT_CLEAN=""
+if [[ -z $ZSH_THEME_ARCHCRAFT_PRFIX ]]; then
+	ZSH_THEME_ARCHCRAFT_PREFIX=''
+fi
 
-local pwd="%F{blue}[%f%F{grey}%~%F{blue}]%f"
-local user="%F{blue}[%F{green}%n%f@%F{cyan}%m%F{blue}]%f"
-local count="%F{blue}[%b%F{yellow}%!%F{blue}%B]%f"
-local decoration="%F{magenta}$%F{blue}"
+PROMPT='  %{$fg_bold[blue]%}>%{$fg_bold[cyan]%}>%{$fg_bold[white]%}> %{$fg_bold[cyan]%}   %c %{$fg_bold[yellow]%}$(git_prompt_info)%{$fg_bold[gray]%} %{$reset_color%}'
 
-local sep="%b-%B"
-PROMPT=$'%B%F{blue}┌─$user $sep $pwd$(git_prompt_info) $sep $count%B%F{blue}\n└─[$decoration]%f '
-RPROMPT="[%*]"
-PS2="%F{magenta}>%f "
-PS3="%F{magenta}>%f "
+
+ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg[green]%}[%{$fg[yellow]%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[green]%}] %{$fg[yellow]%}⚡ %{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[green]%}]"

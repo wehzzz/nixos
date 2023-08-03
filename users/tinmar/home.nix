@@ -46,7 +46,7 @@
     gnumake
     vscode
     docker-compose
-
+    inxi
     #desktop
     firefox
     rofi

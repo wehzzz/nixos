@@ -4,5 +4,6 @@
     ./zsh
     ./git
     ./gpg
+    ./polybar
   ];
 }

@@ -1,23 +1,19 @@
 { pkgs, ... }:
 let
-  # Body.
-  background = "#0f111b";
-  foreground = "#ECECEC";
-  border-bottom = "#2F2F2F";
-  disabled = "#413c58";
+  # colors.
+  background = "#1E1E2E";
+  background-alt = "#1E1E2E";
+  foreground = "#C5C8C6";
+  primary = "#F0C674";
+  secondary = "#8ABEB7";
+  alert = "#A54242";
+  disabled = "#707880";
+  white = "#EAEAEA";
+  grey = "#61616C";
+  green = "#25D865";
+  blue = "#168ECA";
+  mauve = "#490761";
 
-  # Workspace.
-  active-workspace-background = "#161927";
-  urgent-workspace-background = "#0f111b";
-  empty-workspace-foreground = "#707880";
-
-  # Datetime.
-  main-timezone-foreground = "#ECECEC";
-  second-timezone-foreground = "#ECECEC";
-
-  # Location.
-  main-location-foreground = "#f1c0e8";
-  second-location-foreground = "#f77f00";
 in {
   services.polybar = {
     enable = true;
@@ -31,106 +27,200 @@ in {
       };
 
       "bar/main" = {
+	#polybar -M | cut -d ':' -f 1
+	monitor = "HDMI-A-0";
         width = "100%";
-        height = "20pt";
-        radius = 0;
-        background = "${background}";
-        foreground = "${foreground}";
-        line-size = "3pt";
-        module-margin = 0;
-        separator = " | ";
-        separator-foreground = "${disabled}";
-        font-0 = "Lexend:size=10;2";
-        font-1 = "Noto Color Emoji:scale=11;2";
-        modules-left = "xworkspaces";
-        modules-right =
-          "backlight speaker tor_location system_location ir_date date ipc-dunst battery menu-apps";
-        cursor-click = "pointer";
-        cursor-scroll = "ns-resize";
-        enable-ipc = true;
-        tray-position = "right";
-        wm-restack = "bspwm";
-        override-redirect = false;
-        border-bottom-size = 1;
-        border-bottom-color = "${border-bottom}";
+        height = "25pt";
+        radius = "10";
+	cursor-click = "pointer";
+	background = "${background}";
+	foreground = "${foreground}";
+
+	font-0 = "JetBrainsMono Nerd Font:weight=bold:size=10";
+	font-1 = "Symbols Nerd Font Mono:size=12";
+
+	line-size = "3pt";
+
+	border-size = "2pt";
+	border-color = "#0000000";
+
+	padding-left = 1;
+	padding-right = 1;
+
+	module-margin = 0;
+
+	modules-left = "nix space date space space spo space spotify";
+	modules-center = "xworkspaces";
+	modules-right = "cava space space space space space mic space pulseaudio space space space space backlight space separator space battery space separator space wlan space";
       };
 
       "module/xworkspaces" = {
         type = "internal/xworkspaces";
-        label-active = "%name%";
-        label-active-background = "${active-workspace-background}";
-        label-active-padding = 2;
-        label-occupied = "%name%";
-        label-occupied-padding = 2;
-        label-urgent = "%name%";
-        label-urgent-background = "${urgent-workspace-background}";
-        label-urgent-padding = 2;
-        label-empty = "%name%";
-        label-empty-foreground = "${empty-workspace-foreground}";
-        label-empty-padding = 2;
+	
+ 	label-active = "";
+	label-active-padding = 1;
+	label-active-foreground = "${disabled}";
+	label-active-font = 1;
+
+	label-occupied = "";
+	label-occupied-padding = 1;
+	label-occupied-font = 1;
+
+	label-empty = "";
+	label-empty-background = "${background}";
+	label-empty-padding = 1;
+	label-empty-font = 1;
+      };
+
+      "modules/xwindow" = {
+	type = "internal/xwindow";
+	label = "%title:0:60:...%";
+      };
+
+     "network-base" = {
+	type = "internal/network";
+	interval = 5;
+	format-connected = "<laprimarybel-connected>";
+	format-disconnected = "<label-disconnected>";
+	label-disconnected = "%{F#F0C674}%ifname%%{F#707880} disconnected";
+      };
+
+      "module/wlan" = {
+	type = "internal/network";
+	interface-type = "wireless";
+
+	interval = 1;
+	format-connected-prefix-foreground = "${white}";
+	format-connected-foreground = "${white}";
+	format-connected = "<label-connected>";
+	label-connected = "󰖩";
+	label-connected-padding = 0;
+
+	format-disconnected = "<label-disconnected>";
+	format-disconnected-padding = 0;
+	label-disconnected = "󰖪";
+	label-disconnected-foreground = "${white}";
+	label-disconnected-padding = 0;
       };
 
       "module/backlight" = {
         type = "internal/backlight";
-        card = "intel_backlight";
+	#ls -1 /sys/class/backlight/
+        card = "amdgpu_bl1";
         use-actual-brightness = true;
         enable-scroll = true;
-        format-prefix = "🪔 ";
-        label = "%percentage%%";
+        format = "<ramp> <label>";
+	format-foreground = "${white}";
+	label = "%percentage%%";
+
+	ramp-0 = "󰃞";
+	ramp-1 = "󰃝";
+	ramp-2 = "󰃟";
+	ramp-3 = "󰃠";
       };
 
-      "module/speaker" = {
-        type = "custom/script";
-        label = "📢 %output%";
-        interval = 1;
-        exec = "pamixer --get-volume-human";
-        click-left = "pamixer --toggle-mute && pamixer --get-volume-human";
-        scroll-up = "pamixer --increase 1 && pamixer --get-volume-human";
-        scroll-down = "pamixer --decrease 1 && pamixer --get-volume-human";
+      "module/spotify" = {
+	type = "custom/script";
+	exec = ""; # "~/Scripts/media.sh";
+	interval = 1;
+	format = "<label>";
+	label = "%output%";
+      };
+	
+      "settings" = {
+	screenchange-reload = "true";
+	pseudo-transparency = "true";
       };
 
-      "module/system_location" = {
-        type = "custom/script";
-        exec =
-          "echo $(curl -s http://ip-api.com/json --connect-timeout 5 | jq -r '.countryCode')";
-        interval = 30;
-        format-foreground = "${main-location-foreground}";
-      };
+      "module/pulseaudio" = {
+	type = "internal/pulseaudio";
 
-      "module/tor_location" = {
-        type = "custom/script";
-        exec =
-          "echo $(curl -s -x http://127.0.0.1:8118 http://ip-api.com/json --connect-timeout 5 | jq -r '.countryCode')";
-        interval = 30;
-        format-foreground = "${second-location-foreground}";
+	format-volume-prefix = "󰕾 ";
+	format-volume-foreground = "${foreground}";
+	format-volume-prefix-foreground = "${foreground}";
+	format-volume = "<label-volume>";
+	label-volume = "%percentage%%";
+
+	label-muted = "󰖁 %percentage%%";
+	label-muted-foreground = "${disabled}";
       };
 
       "module/date" = {
         type = "internal/date";
         interval = 1;
-        date = "%a %d/%m %R";
+        date = "%I:%M %p|%d-%m-%y";
         label = "%date%";
-        format-foreground = "${main-timezone-foreground}";
-      };
-
-      "module/ir_date" = {
-        type = "custom/script";
-        exec = "TZ=Asia/Tehran date '+%R'";
-        interval = 1;
-        format-foreground = "${second-timezone-foreground}";
+        format-foreground = "${white}";
       };
 
       "module/battery" = {
         type = "internal/battery";
-        full-at = 100;
-        low-at = 10;
+        full-at = 99;
+        low-at = 20;
+	# ls -1 /sys/class/power_supply/
         battery = "BAT0";
-        adapter = "ADP1";
+        adapter = "ADP0";
         poll-interval = 5;
-        label-charging = "%{F#5ccc96}%percentage%%";
+	format-charging-foreground = "${foreground}";
+	format-discharging-foreground = "${foreground}";
+	format-charging = "<animation-charging><label-charging>";
+	format-discharging = "<ramp-capacity><label-discharging>";
+        label-charging = "%percentage%%";
         label-discharging = "%percentage%%";
-        label-full = "%{F#5ccc96}FULL";
-        label-low = "%{F#e33400}%percentage%%";
+        label-full = "Full";
+        label-low = "LOW";
+
+	ramp-capacity-0 = " ";
+	ramp-capacity-1 = " ";
+	ramp-capacity-2 = " ";
+	ramp-capacity-3 = " ";
+	ramp-capacity-4 = " ";
+
+	bar-capacity-width = 10;
+
+	animation-charging-0 = " ";
+	animation-charging-1 = " ";
+	animation-charging-2 = " ";
+	animation-charging-3 = " ";
+	animation-charging-4 = " ";
+	animation-charging-framerate = 750;
+
+	animation-discharging-0 = " ";
+	animation-discharging-1 = " ";
+	animation-discharging-2 = " ";
+	animation-discharging-3 = " ";
+	animation-discharging-4 = " ";
+
+	animation-discharging-framerate = 500;
+
+	animation-low-0 = "!";
+	animation-low-1 = "";
+	animation-low-framerate = 200;
+      };
+
+      "module/spo" = {
+	type = "custom/text";
+	content = "";
+	content-foreground = "${green}";
+	content-margin = 0;
+      };
+
+      "module/nix" = {
+	type = "custom/text";
+	content = "";
+	content-foreground = "${blue}";
+	content-margin = 0;
+      };
+
+      "module/space" = {
+	type = "custom/text";
+	content = " ";
+      };
+
+      "module/separator" = {
+	type = "custom/text";
+	content = "|";
+	content-foreground = "${disabled}";
       };
 
       # https://github.com/sagotsky/.dotfiles/blob/master/config/polybar/config

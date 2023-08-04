@@ -1,8 +1,10 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 let
-    wallpaper = "../../wallpaper/wallpaper.jpg";
+    wallpaper = "/$HOME/.dotfiles/wallpaper/wallpaper.jpg";
 in
+{
+  programs.i3status.enable = true;
   xsession = {
     enable = true;
 
@@ -15,42 +17,68 @@ in
           popup_during_fullscreen smart
         '';
 
-        config = {
+        config = rec {
           modes = {
             resize = {
               Left  = "resize shrink width 10 px or 10 ppt";
-              h     = "resize shrink width 10 px or 10 ppt";
+              j     = "resize shrink width 10 px or 10 ppt";
               Right = "resize grow width 10 px or 10 ppt";
-              l     = "resize grow width 10 px or 10 ppt";
+              m     = "resize grow width 10 px or 10 ppt";
               Up    = "resize shrink height 10 px or 10 ppt";
-              k     = "resize shrink height 10 px or 10 ppt";
+              l     = "resize shrink height 10 px or 10 ppt";
               Down  = "resize grow height 10 px or 10 ppt";
-              j     = "resize grow height 10 px or 10 ppt";
+              k     = "resize grow height 10 px or 10 ppt";
 
               Escape = "mode default";
               Return = "mode default";
             };
           };
 
-          keybindings = let mod = "Mod1"; in with pkgs; {
-            XF86AudioPause         = "exec ${playerctl}/bin/playerctl pause";
-            XF86AudioNext          = "exec ${playerctl}/bin/playerctl next";
-            XF86AudioPrev          = "exec ${playerctl}/bin/playerctl previous";
-            XF86AudioLowerVolume   = "exec ${pulseaudioFull}/bin/pactl set-sink-volume 0 -5%";
-            XF86AudioRaiseVolume   = "exec ${pulseaudioFull}/bin/pactl set-sink-volume 0 +5%";
-            XF86AudioMute          = "exec ${pulseaudioFull}/bin/pactl set-sink-mute 0 toggle";
+	  modifier = "Mod1";
+          keybindings = lib.mkOptionDefault {
+	    XF86AudioPlay          = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
+            XF86AudioPause         = "exec ${pkgs.playerctl}/bin/playerctl pause";
+            XF86AudioNext          = "exec ${pkgs.playerctl}/bin/playerctl next";
+            XF86AudioPrev          = "exec ${pkgs.playerctl}/bin/playerctl previous";
+            XF86AudioLowerVolume   = "exec ${pkgs.pulseaudioFull}/bin/pactl set-sink-volume 0 -5%";
+            XF86AudioRaiseVolume   = "exec ${pkgs.pulseaudioFull}/bin/pactl set-sink-volume 0 +5%";
+            XF86AudioMute          = "exec ${pkgs.pulseaudioFull}/bin/pactl set-sink-mute 0 toggle";
 
-            "${mod}+Return"        = "exec ${alacritty}/bin/alacritty";
-            "${mod}+Shift+less"    = "exec xbacklight -dec 33%";
-            "${mod}+Shift+greater" = "exec xbacklight -inc 33%";
-	    
+            "${modifier}+Return"        = "exec ${pkgs.alacritty}/bin/alacritty";
+            "${modifier}+Shift+less"    = "exec xbacklight -dec 33%";
+            "${modifier}+Shift+greater" = "exec xbacklight -inc 33%";
+	   
+	    "${modifier}+j" = "focus left";
+            "${modifier}+k" = "focus down";
+            "${modifier}+l" = "focus up";
+            "${modifier}+m" = "focus right";
+
+            "${modifier}+Shift+j" = "move left";
+            "${modifier}+Shift+k" = "move down";
+            "${modifier}+Shift+l" = "move up";
+            "${modifier}+Shift+m" = "move right";
+
+            "${modifier}+h" = "split h";
+            "${modifier}+v" = "split v";
+            "${modifier}+f" = "fullscreen toggle";
+            "${modifier}+Shift+space" = "floating toggle";
+            "${modifier}+Shift+a" = "kill";
+            "${modifier}+Shift+e" = "exec i3-nagbar -t warning -m 'Do you want to exit i3?' -b 'Yes' 'i3-msg exit'";
+            "${modifier}+Shift+c" = "reload";
+            "${modifier}+Shift+r" = "restart";
+ 
+            "${modifier}+s" = "layout stacking";
+            "${modifier}+z" = "layout tabbed";
+            "${modifier}+e" = "layout toggle split";
+            "${modifier}+r" = "mode resize";
+
 	    # Screenshot
 	    # Copy to clipboard
             "Print"                = "exec --no-startup-id flameshot gui -c";
 	    # save in Pictures folder
 	    "Ctrl+Print"           = "exec --no-startup-id flameshot gui -p \"/$HOME/Pictures/\"";	
 
-	    "${mod}+d"       = "exec --no-startup-id dmenu_run";
+	    "${modifier}+d"       = "exec --no-startup-id dmenu_run";
             #"${mod}+d"       = "exec ${rofi}/bin/rofi -show run";
           };
 
@@ -75,9 +103,10 @@ in
             }	
           ];
 
-          bars = [];
-
-          fonts = ["DejaVu Sans Mono 8"];
+          bars = [{
+            statusCommand = "${pkgs.i3status}/bin/i3status";
+            position = "bottom";
+	  }];
 
           gaps = {
             inner = 12;

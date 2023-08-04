@@ -120,21 +120,21 @@
 	xfce.enable = true;
      };
 
-     displayManager = {
- 	defaultSession = "none+i3";
-    	lightdm.enable = true;
-     };
+     #displayManager = {
+ 	#defaultSession = "none+i3";
+    	#lightdm.enable = true;
+     #};
 
-     windowManager.i3 = {
-	enable = true;
-	extraPackages = with pkgs; [
-	  dmenu
-	  i3status
-	  i3lock
-	  i3blocks
-	  i3-gaps
-	];
-     };
+     #windowManager.i3 = {
+	#enable = true;
+	#extraPackages = with pkgs; [
+	  #dmenu
+	  #i3status
+	  #i3lock
+	  #i3blocks
+	  #i3-gaps
+	#];
+     #};
   };
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

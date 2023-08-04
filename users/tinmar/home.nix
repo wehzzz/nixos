@@ -50,12 +50,11 @@
     #desktop
     firefox
     rofi
-    polybar
-    i3
     geany
     discord
     picom
-    
+    dmenu
+
     #sound
     pavucontrol
     playerctl    

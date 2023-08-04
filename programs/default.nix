@@ -5,5 +5,6 @@
     ./git
     ./gpg
     ./polybar
+    ./i3
   ];
 }

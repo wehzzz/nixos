@@ -51,7 +51,7 @@ in {
 
 	modules-left = "nix space date space space spo space spotify";
 	modules-center = "xworkspaces";
-	modules-right = "cava space space space space space mic space pulseaudio space space space space backlight space separator space battery space separator space wlan space";
+	modules-right = "cava space space space space space mic space pulseaudio space separator space backlight space separator space battery space separator space wlan space";
       };
 
       "module/xworkspaces" = {
@@ -133,7 +133,7 @@ in {
       };
 
       "module/pulseaudio" = {
-	type = "internal/pulseaudio";
+	type = "internal/alsa";
 
 	format-volume-prefix = "󰕾 ";
 	format-volume-foreground = "${foreground}";
@@ -199,10 +199,11 @@ in {
       };
 
       "module/spo" = {
-	type = "custom/text";
-	content = "";
-	content-foreground = "${green}";
-	content-margin = 0;
+	type = "custom/script";
+	tail = true;
+	interval = 1;
+	format = " <label>";
+      	exec = "${pkgs.playerctl}/bin/playerctl metadata --format \"{{artist}}\"";	
       };
 
       "module/nix" = {

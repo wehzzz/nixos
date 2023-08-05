@@ -15,6 +15,7 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    google-chrome
     #System command
     htop
     wget
@@ -50,11 +51,15 @@
     #desktop
     firefox
     rofi
+    rofi-power-menu
+    rofi-systemd
+    rofi-bluetooth
+    rofi-pulse-select
+
     geany
     discord
     picom
     dmenu
-
     #sound
     pavucontrol
     playerctl    

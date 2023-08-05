@@ -71,6 +71,19 @@
   };
   hardware.pulseaudio.enable = true;
   security.rtkit.enable = true;
+  
+  services.mpd.extraConfig = ''
+    audio_output {
+      type "alsa"
+      name "My ALSA"
+      #device			"hw:0,0"	# optional 
+      #format			"44100:16:2"	# optional
+      mixer_type		"hardware"
+      mixer_device	"default"
+      mixer_control	"PCM"
+    }
+  '';
+
   services.pipewire = {
     enable = false;
     alsa.enable = true;

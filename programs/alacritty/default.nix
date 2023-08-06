@@ -24,7 +24,7 @@ in
           columns = 82;
         };
 	
-	decorations = "full";
+	decorations = "none";
 	startup_mode = "windowed";
 	dynamic_title = true;
 

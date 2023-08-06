@@ -6,6 +6,5 @@
     ./gpg
     ./polybar
     ./i3
-    ./mpd
   ];
 }

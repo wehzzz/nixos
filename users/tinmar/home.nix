@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
  
@@ -55,7 +55,8 @@
     rofi-systemd
     rofi-bluetooth
     rofi-pulse-select
-
+   
+    killall 
     geany
     discord
     picom
@@ -84,6 +85,12 @@
   programs = {
     home-manager.enable = true;
   }; 
+
+  systemd.user.services.polybar = {
+    Install.WantedBy = [ "graphical-session.target" ];
+    Service.Environment = lib.mkForce ""; # to override the package's default configuration
+    Service.PassEnvironment = "PATH"; # so that the entire PATH is passed to this service (alternatively, you can import the entire PATH to systemd at startup, which I'm not sure is recommended
+  };
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.

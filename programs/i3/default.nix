@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 
 let
-    wallpaper = "/$HOME/.dotfiles/wallpaper/wallpaper.jpg";
+    wallpaper = "/$HOME/.dotfiles/wallpaper/wallpaper_epita.jpg";
 in
 {
   programs.i3status.enable = true;
@@ -15,6 +15,11 @@ in
         extraConfig = ''
           workspace_auto_back_and_forth yes
           popup_during_fullscreen smart
+
+	  for_window [class="^.*"] border pixel 1
+          for_window [title="^.*"] border pixel 1
+
+	  for_window [class="feh"] floating enable
         '';
 
         config = rec {
@@ -36,17 +41,19 @@ in
 
 	  modifier = "Mod1";
           keybindings = lib.mkOptionDefault {
-	    XF86AudioPlay          = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
-            XF86AudioPause         = "exec ${pkgs.playerctl}/bin/playerctl pause";
+	    XF86AudioPlay          = "exec ${pkgs.playerctl}/bin/playerctl play";
+            XF86AudioPause         = "exec ${pkgs.playerctl}/bin/playerctl play-pause";
+	    XF86AudioStop          = "exec ${pkgs.playerctl}/bin/playerctl stop";
             XF86AudioNext          = "exec ${pkgs.playerctl}/bin/playerctl next";
             XF86AudioPrev          = "exec ${pkgs.playerctl}/bin/playerctl previous";
             XF86AudioLowerVolume   = "exec ${pkgs.pulseaudioFull}/bin/pactl set-sink-volume 0 -5%";
             XF86AudioRaiseVolume   = "exec ${pkgs.pulseaudioFull}/bin/pactl set-sink-volume 0 +5%";
             XF86AudioMute          = "exec ${pkgs.pulseaudioFull}/bin/pactl set-sink-mute 0 toggle";
 
-            "${modifier}+Return"        = "exec ${pkgs.alacritty}/bin/alacritty";
-            "${modifier}+Shift+less"    = "exec xbacklight -dec 33%";
-            "${modifier}+Shift+greater" = "exec xbacklight -inc 33%";
+	    XF86MonBrightnessUp    = "exec light -A 5%";
+            XF86MonBrightnessDown  = "exec light -U 5%";
+            
+	    "${modifier}+Return"        = "exec ${pkgs.alacritty}/bin/alacritty";
 	   
 	    "${modifier}+j" = "focus left";
             "${modifier}+k" = "focus down";
@@ -61,7 +68,7 @@ in
             "${modifier}+h" = "split h";
             "${modifier}+v" = "split v";
             "${modifier}+f" = "fullscreen toggle";
-            "${modifier}+Shift+space" = "floating toggle";
+            "${modifier}+ctrl+space" = "floating toggle";
             "${modifier}+Shift+a" = "kill";
             "${modifier}+Shift+e" = "exec i3-nagbar -t warning -m 'Do you want to exit i3?' -b 'Yes' 'i3-msg exit'";
             "${modifier}+Shift+c" = "reload";
@@ -84,7 +91,7 @@ in
 
           startup = [
             {
-              command = "systemctl --user restart polybar";
+              command = "~/.dotfiles/programs/polybar/scripts/launch.sh";
               always = true;
               notification = false;
             }
@@ -100,19 +107,20 @@ in
 	    {
               command = "${pkgs.discord}/bin/Discord --enable-gpu-rasterization";
               notification = false;
-            }	
+            }
           ];
 
-          bars = [{
-            statusCommand = "${pkgs.i3status}/bin/i3status";
+          bars = [{  	    
+	    statusCommand = "${pkgs.i3status}/bin/i3status";
             position = "bottom";
 	  }];
 
           gaps = {
+	    top = 40;
             inner = 12;
             outer = 0;
             smartBorders = "on";
-            smartGaps = true;
+            smartGaps = false;
           };
 
           window = {

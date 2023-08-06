@@ -1,18 +1,28 @@
-{ pkgs, ... }:
+{ pkgs, lib,... }:
 let
   # colors.
-  background = "#1E1E2E";
-  background-alt = "#1E1E2E";
-  foreground = "#C5C8C6";
-  primary = "#F0C674";
-  secondary = "#8ABEB7";
-  alert = "#A54242";
-  disabled = "#707880";
-  white = "#EAEAEA";
-  grey = "#61616C";
-  green = "#25D865";
-  blue = "#168ECA";
-  mauve = "#490761";
+  background = "#1E2128";
+  foreground = "#ABB2BF";
+  altbackground = "#292d37";
+  altforeground = "#5a6477";  
+  accent = "#5294E2";
+
+  black = "#32363D";
+  red = "#E06B74";
+  green = "#98C379";
+  yellow = "#E5C07A";
+  blue = "#62AEEF";
+  magenta = "#C778DD";
+  cyan = "#55B6C2";
+  white = "#ABB2BF";
+  altblack = "#50545B";
+  altred = "#EA757E";
+  altgreen = "#A2CD83";
+  altyellow = "#EFCA84";
+  altblue = "#6CB8F9";
+  altmagenta = "#D282E7";
+  altcyan = "#5FC0CC";
+  altwhite = "#B5BCC9";
 
 in {
   services.polybar = {
@@ -28,30 +38,78 @@ in {
 
       "bar/main" = {
 	#polybar -M | cut -d ':' -f 1
-	monitor = "HDMI-A-0";
-        width = "100%";
-        height = "25pt";
-        radius = "10";
+	monitor = "\${env:MONITOR:}";
+	monitor-fallback = "eDP";
+	monitor-strict = false;
+	override-redirect = true;
+	wm-restack = "i3";
+	bottom = false;
+	fixed-center = true;
+
+        width = "98.8%";
+        height = "20pt";
+        radius = "0";
 	cursor-click = "pointer";
 	background = "${background}";
 	foreground = "${foreground}";
 
-	font-0 = "JetBrainsMono Nerd Font:weight=bold:size=10";
-	font-1 = "Symbols Nerd Font Mono:size=12";
+	font-0 = "JetBrainsMono Nerd Font:size=10;3";
+	font-1 = "Symbols Nerd Font Mono:size=12;3";
+	font-2 = "Iosevka Nerd Font:size=15;4";
+	font-3 = "Iosevka Nerd Font:size=10;4";
+	font-4 = "Iosevka:style=bold:size=10;4";
+	font-5 = "Symbols Nerd Font Mono;size=18;3";
 
-	line-size = "3pt";
+	line-size = "2pt";
+	line-color = "${accent}";
 
-	border-size = "2pt";
-	border-color = "#0000000";
+	border-size = "4pt";
+	border-color = "${background}";
 
-	padding-left = 1;
-	padding-right = 1;
+	padding-left = 0;
+	padding-right = 0;
 
 	module-margin = 0;
 
-	modules-left = "nix space date space space spo space spotify";
-	modules-center = "xworkspaces";
-	modules-right = "cava space space space space space mic space pulseaudio space separator space backlight space separator space battery space separator space wlan space";
+	modules-left = "space2 menu dot-alt LD i3 RD dot cpu dot used-memory";
+	modules-center = "LD date RD dot-alt LD song-prev song-pause song-next RD sep song";
+	modules-right = "volume dot backlight dot bluetooth dot network dot LD battery RD dot-alt LD sysmenu RD";
+      	
+	separator = "";
+	spacing = 0;
+
+	tray-position = "right";
+	tray-detached = false;
+	tray-maxsize = 16;
+	tray-background = "${background}";
+	tray-padding = 0;
+	tray-scale = "1.0";
+
+	offset-x = "0.65%";
+	offset-y = "0.8%";
+	
+	enable-ipc = true;   	
+      };
+
+      "settings" = {
+	screenchange-reload = "true";
+	pseudo-transparency = "true";
+      
+	compositing-background = "source";
+	compositing-foreground = "over";
+	compositing-overline = "over";
+	compositing-underline = "over";
+	compositing-border = "over";
+	};
+
+      "module/bna" = {
+	type = "custom/text";
+
+	content = " NA";
+	content-prefix = "";
+	content-prefix-font = 2;
+	content-prefix-foreground = "${red}";
+	content-padding = 1;
       };
 
       "module/xworkspaces" = {
@@ -59,7 +117,7 @@ in {
 	
  	label-active = "";
 	label-active-padding = 1;
-	label-active-foreground = "${disabled}";
+	label-active-foreground = "${foreground}";
 	label-active-font = 1;
 
 	label-occupied = "";
@@ -93,7 +151,7 @@ in {
 	format-connected-prefix-foreground = "${white}";
 	format-connected-foreground = "${white}";
 	format-connected = "<label-connected>";
-	label-connected = "󰖩";
+	label-connected = "󰖩 %essid%";
 	label-connected-padding = 0;
 
 	format-disconnected = "<label-disconnected>";
@@ -105,110 +163,194 @@ in {
 
       "module/backlight" = {
         type = "internal/backlight";
+	
 	#ls -1 /sys/class/backlight/
-        card = "amdgpu_bl1";
-        use-actual-brightness = true;
+	card = "amdgpu_bl1";
+        
+	use-actual-brightness = true;
         enable-scroll = true;
-        format = "<ramp> <label>";
-	format-foreground = "${white}";
+        
+	format = "<ramp> <label>";
+	format-background = "${background}";
 	label = "%percentage%%";
 
 	ramp-0 = "󰃞";
 	ramp-1 = "󰃝";
 	ramp-2 = "󰃟";
 	ramp-3 = "󰃠";
+	ramp-foreground = "${cyan}";
       };
 
-      "module/spotify" = {
-	type = "custom/script";
-	exec = ""; # "~/Scripts/media.sh";
-	interval = 1;
-	format = "<label>";
-	label = "%output%";
-      };
-	
-      "settings" = {
-	screenchange-reload = "true";
-	pseudo-transparency = "true";
-      };
-
-      "module/pulseaudio" = {
+      "module/volume" = {
 	type = "internal/alsa";
+
+	use-ui-max = false;	
 
 	format-volume-prefix = "󰕾 ";
 	format-volume-foreground = "${foreground}";
 	format-volume-prefix-foreground = "${foreground}";
+	format-volume-background = "${background}";
 	format-volume = "<label-volume>";
+	
 	label-volume = "%percentage%%";
 
-	label-muted = "󰖁 %percentage%%";
-	label-muted-foreground = "${disabled}";
+	format-muted = "<label-muted>";
+	format-muted-prefix = "󰖁 ";
+	format-muted-prefix-foreground = "${altforeground}";
+	format-muted-background = "${background}";
+	
+	label-muted = "Mute";
+	label-muted-foreground = "${altforeground}";
+        
+	click-right = "${pkgs.pavucontrol}/bin/pavucontrol";
       };
 
       "module/date" = {
         type = "internal/date";
-        interval = 1;
-        date = "%I:%M %p|%d-%m-%y";
-        label = "%date%";
-        format-foreground = "${white}";
+        
+	interval = 1;
+	
+	date = "%H:%M";
+	date-alt = "%a, %d %b %G";       
+ 
+	format = "<label>";
+	format-prefix = " ";
+	format-prefix-font = 1;
+	format-prefix-foreground = "${red}";
+	format-background = "${altbackground}";
+
+	label = "%date%";
+	label-font = 0;
+      };
+
+      "module/used-memory" = {
+	type = "custom/script";
+
+	exec = "/run/current-system/sw/bin/free -m | ${pkgs.gnugrep}/bin/grep 'Mem:' | /run/current-system/sw/bin/tr -s ' ' | /run/current-system/sw/bin/cut -d ' ' -f3";
+
+	tail = true;
+	interval = 5;
+
+	format = "<label>";
+	format-background = "${background}";
+	format-padding = 1;
+
+	format-prefix = " ";
+	format-prefix-font = 1;
+	format-prefix-foreground = "${cyan}";
+
+	label = " %output% MB";
+
+	click-left = "${pkgs.alacritty}/bin/alacritty --hold -e \"htop\"";
       };
 
       "module/battery" = {
         type = "internal/battery";
-        full-at = 99;
-        low-at = 20;
+        
+	full-at = 99;
+	
 	# ls -1 /sys/class/power_supply/
         battery = "BAT0";
         adapter = "ADP0";
-        poll-interval = 5;
-	format-charging-foreground = "${foreground}";
-	format-discharging-foreground = "${foreground}";
-	format-charging = "<animation-charging><label-charging>";
-	format-discharging = "<ramp-capacity><label-discharging>";
-        label-charging = "%percentage%%";
+
+        poll-interval = 2;
+	time-format = "%H:%M";
+
+	format-charging = "<animation-charging> <label-charging>";
+	format-charging-prefix = " ";
+	format-charging-prefix-font = 1;
+	format-charging-prefix-foreground = "${red}";
+	format-charging-background = "${altbackground}";	
+
+	format-discharging = "<ramp-capacity> <label-discharging>";
+	format-discharging-background = "${altbackground}";
+        
+	label-charging = "%percentage%%";
         label-discharging = "%percentage%%";
-        label-full = "Full";
-        label-low = "LOW";
+	
+	format-full = "<label-full>";
+	format-full-prefix = " ";
+	format-full-prefix-font = 2;
+	format-full-prefix-foreground = "${green}";
+	format-full-background = "${altbackground}";
+        label-full = "%percentage%%"; #Full
 
 	ramp-capacity-0 = " ";
 	ramp-capacity-1 = " ";
 	ramp-capacity-2 = " ";
 	ramp-capacity-3 = " ";
 	ramp-capacity-4 = " ";
-
-	bar-capacity-width = 10;
+	ramp-capacity-foreground = "${yellow}";
+	ramp-capacity-font = 2;
 
 	animation-charging-0 = " ";
 	animation-charging-1 = " ";
 	animation-charging-2 = " ";
 	animation-charging-3 = " ";
 	animation-charging-4 = " ";
-	animation-charging-framerate = 750;
-
-	animation-discharging-0 = " ";
-	animation-discharging-1 = " ";
-	animation-discharging-2 = " ";
-	animation-discharging-3 = " ";
-	animation-discharging-4 = " ";
-
-	animation-discharging-framerate = 500;
-
-	animation-low-0 = "!";
-	animation-low-1 = "";
-	animation-low-framerate = 200;
+	animation-charging-foreground = "${green}";
+	animation-charging-font = 2;
+	animation-charging-framerate = 700;
       };
 
-      "module/spo" = {
-	type = "custom/script";
-	tail = true;
-	interval = 1;
-	format = " <label>";
-      	exec = "${pkgs.playerctl}/bin/playerctl metadata --format \"{{artist}}\"";	
-      };
+      "module/cpu" = {
+	type = "internal/cpu";
 
-      "module/nix" = {
+	interval = "0.5";
+
+	format = "<label>";
+	format-prefix = "";
+	format-prefix-font = 1;
+	format-prefix-foreground = "${yellow}";
+	format-background = "${background}";
+	format-padding = 1;
+
+	label = " %percentage%%";
+      };
+      
+      "module/song-prev" = {
 	type = "custom/text";
-	content = "";
+
+	content-background = "${altbackground}";
+	content-foreground = "${blue}";
+	content = "󰒮 ";
+
+	click-left = "${pkgs.playerctl}/bin/playerctl previous";     
+      };
+
+      "module/song-pause" = {
+	type = "custom/text";
+
+	content = " ";
+	content-background = "${altbackground}";
+	content-foreground = "${green}";
+	
+	click-left = "${pkgs.playerctl}/bin/playerctl play-pause";
+      };
+
+      "module/song-next" = {
+	type = "custom/text";
+
+	content-background = "${altbackground}";
+	content-foreground = "${blue}";
+	content = "󰒭";
+
+	click-left = "${pkgs.playerctl}/bin/playerctl next";     
+      };
+
+      "module/song" = {
+	type = "custom/script";
+	format = "<label>";
+	label = "%output%";
+	interval = 2;
+      	exec = "~/.dotfiles/programs/polybar/scripts/music.sh";	
+      };
+
+      "module/menu" = {
+	type = "custom/text";
+	content = " ";
+	content-font = 5;
+	content-background = "${background}";
 	content-foreground = "${blue}";
 	content-margin = 0;
       };
@@ -216,38 +358,52 @@ in {
       "module/space" = {
 	type = "custom/text";
 	content = " ";
+	content-background = "${altbackground}";
       };
 
-      "module/separator" = {
+      "module/space2" = {
 	type = "custom/text";
-	content = "|";
-	content-foreground = "${disabled}";
+	content = " ";
+	content-background = "${background}";
       };
 
-      # https://github.com/sagotsky/.dotfiles/blob/master/config/polybar/config
-      "module/ipc-dunst" = {
-        type = "custom/ipc";
-        initial = 1;
-        hook-0 = ''
-          echo "%{A1:dunstctl set-paused true && polybar-msg hook ipc-dunst 2:}🔔%{A}" &'';
-        hook-1 = ''
-          echo "%{A1:dunstctl set-paused false && polybar-msg hook ipc-dunst 1:}%{F#ff2200}🔕%{F-}%{A}" &'';
+      "module/sep" = {
+	type = "custom/text";
+	content = "-";
+	content-background = "${background}";
+	content-foreground = "${background}";
       };
 
-      "module/menu-apps" = {
-        type = "custom/menu";
-        expand-right = true;
-        label-open = "➕";
-        label-close = "➖ ";
-        menu-0-0 = "Shutdown |";
-        menu-0-0-exec =
-          "zenity --question --title 'shutdown' --text 'shutdown now?' && shutdown now";
-        menu-0-1 = " Restart";
-        menu-0-1-exec =
-          "zenity --question --title 'restart' --text 'restart now?' && reboot";
+      "module/dot" = {
+	type = "custom/text";
+	content = "";
+	content-foreground = "${altbackground}";
+	content-padding = 1;
+	content-font = 4;
       };
 
+      "module/dot-alt" = {
+	type = "custom/text";
+	content = " ";
+	content-padding = 1;
+	content-font = 4;
+	content-foreground = "${altforeground}";
+      };
+     
+      "module/LD" = {
+	type = "custom/text";
+	content = "%{T3}%{T-}";
+	content-background = "${background}";
+	content-foreground = "${altbackground}";
+      };
+
+      "module/RD" = {
+	type = "custom/text";
+	content = "%{T3}%{T-}";
+	content-background = "${background}";
+	content-foreground = "${altbackground}";
+      };
     };
     script = "polybar main --log=error &";
-  };
+  };  
 }

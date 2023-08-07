@@ -110,10 +110,12 @@ in
             }
           ];
 
-          bars = [{  	    
-	    statusCommand = "${pkgs.i3status}/bin/i3status";
-            position = "bottom";
-	  }];
+          bars = [
+	  #{  	    
+	    #statusCommand = "${pkgs.i3status}/bin/i3status";
+            #position = "bottom";
+	  #}
+          ];
 
           gaps = {
 	    top = 40;

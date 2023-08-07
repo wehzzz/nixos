@@ -27,6 +27,12 @@ let
 in {
   services.polybar = {
     enable = true;
+
+    package = pkgs.polybar.override {
+      i3Support = true;
+      alsaSupport = true;
+    };
+
     config = {
       "global/wm" = {
         margin-top = 0;
@@ -57,7 +63,7 @@ in {
 	font-1 = "Symbols Nerd Font Mono:size=12;3";
 	font-2 = "Iosevka Nerd Font:size=15;4";
 	font-3 = "Iosevka Nerd Font:size=10;4";
-	font-4 = "Iosevka:style=bold:size=10;4";
+	font-4 = "Symbols Nerd Font Mono;size=14;3";
 	font-5 = "Symbols Nerd Font Mono;size=18;3";
 
 	line-size = "2pt";
@@ -71,9 +77,9 @@ in {
 
 	module-margin = 0;
 
-	modules-left = "space2 menu dot-alt LD i3 RD dot cpu dot used-memory";
+	modules-left = "space2 menu dot-alt i3 dot cpu dot used-memory";
 	modules-center = "LD date RD dot-alt LD song-prev song-pause song-next RD sep song";
-	modules-right = "volume dot backlight dot bluetooth dot network dot LD battery RD dot-alt LD sysmenu RD";
+	modules-right = "volume dot backlight dot bluetooth dot wlan dot LD battery RD dot-alt LD sysmenu RD";
       	
 	separator = "";
 	spacing = 0;
@@ -100,16 +106,38 @@ in {
 	compositing-overline = "over";
 	compositing-underline = "over";
 	compositing-border = "over";
-	};
+      };
 
-      "module/bna" = {
-	type = "custom/text";
+      "module/i3" = {
+	type = "internal/i3";
 
-	content = " NA";
-	content-prefix = "";
-	content-prefix-font = 2;
-	content-prefix-foreground = "${red}";
-	content-padding = 1;
+	pin-workspaces = true;
+	strip-wsnumbers = true;
+	index-sort = true;
+	reverse-scroll = false;
+
+	format = "<label-state><label-mode>";
+	format-background = "${background}";
+	
+	label-mode = "%mode%";
+	label-mode-padding = 1;
+	label-mode-foreground = "${red}";
+
+	label-focused = "%name%";
+	label-focused-background = "${cyan}";
+	label-focused-foreground = "${background}";
+
+	label-unfocused = "%name%";
+
+	label-visible = "%name%";
+	
+	label-urgent = "%name%";
+	label-urgent-foreground = "${red}";
+
+      	label-focused-padding = 1;
+	label-unfocused-padding = 1;
+	label-visible-padding = 1;
+	label-urgent-padding = 1;
       };
 
       "module/xworkspaces" = {
@@ -151,14 +179,15 @@ in {
 	format-connected-prefix-foreground = "${white}";
 	format-connected-foreground = "${white}";
 	format-connected = "<label-connected>";
-	label-connected = "󰖩 %essid%";
+	label-connected = "%{A1:networkmanager_dmenu:}󰖩 %essid%%{A}";
 	label-connected-padding = 0;
 
 	format-disconnected = "<label-disconnected>";
 	format-disconnected-padding = 0;
-	label-disconnected = "󰖪";
+	label-disconnected = "%{A1:networkmanager_dmenu:}󰖪%{A}";
 	label-disconnected-foreground = "${white}";
 	label-disconnected-padding = 0;
+	
       };
 
       "module/backlight" = {

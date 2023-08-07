@@ -55,7 +55,8 @@
     rofi-systemd
     rofi-bluetooth
     rofi-pulse-select
-   
+    networkmanager_dmenu  
+ 
     killall 
     geany
     discord
@@ -99,7 +100,7 @@
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
-
+    ".config/networkmanager-dmenu/config.ini".source = ../../programs/polybar/scripts/networkmanager.ini;
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
     #   org.gradle.console=verbose

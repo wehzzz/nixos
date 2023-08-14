@@ -34,13 +34,9 @@
     p7zip
 
     #command line env
-    zsh
-    oh-my-zsh
 
     #dev
-    git
     vim
-    git
     gnupg
     pinentry
     gcc
@@ -50,7 +46,6 @@
     inxi
     #desktop
     firefox
-    rofi
     rofi-power-menu
     rofi-systemd
     rofi-bluetooth
@@ -100,7 +95,6 @@
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
-    ".config/networkmanager-dmenu/config.ini".source = ../../programs/polybar/scripts/networkmanager.ini;
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
     #   org.gradle.console=verbose

@@ -20,6 +20,7 @@ in
           for_window [title="^.*"] border pixel 1
 
 	  for_window [class="feh"] floating enable
+	  for_window [class="Pavucontrol"] floating enable
         '';
 
         config = rec {

@@ -142,27 +142,16 @@
 
      # Enable the X11 windowing system
      enable = true;
-
+     
      desktopManager = {
-	xterm.enable = false;
-	xfce.enable = true;
+       xterm.enable = false;
      };
 
-     #displayManager = {
- 	#defaultSession = "none+i3";
-    	#lightdm.enable = true;
-     #};
-
-     #windowManager.i3 = {
-	#enable = true;
-	#extraPackages = with pkgs; [
-	  #dmenu
-	  #i3status
-	  #i3lock
-	  #i3blocks
-	  #i3-gaps
-	#];
-     #};
+     displayManager = {
+       lightdm.enable = true;
+       defaultSession = "none+i3";
+     };
+     windowManager.i3.enable = true; 
   };
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

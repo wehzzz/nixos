@@ -378,7 +378,7 @@ in {
 	content-foreground = "${blue}";
 	content-margin = 0;
 
-	click-left = "${pkgs.rofi}/bin/rofi -show drun";
+	click-left = "${pkgs.rofi}/bin/rofi -show drun -theme launcher";
       };
 
       "module/sysmenu" = {
@@ -388,7 +388,7 @@ in {
 	content-foreground = "${red}";
 	content = "⏻ ";
 
-	click-left = "${pkgs.rofi}/bin/rofi -show menu -modi \"menu:rofi-power-menu\"";
+	click-left = "${pkgs.rofi}/bin/rofi -show menu -modi \"menu:rofi-power-menu --choices=lockscreen/logout/reboot/shutdown\" -theme powermenu";
       };
 
       "module/space" = {

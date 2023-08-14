@@ -20,26 +20,20 @@ configuration {
 }
 
 /*****----- Global Properties -----*****/
-* {
-    font:                        "JetBrains Mono Nerd Font 10";
-    background:                  #101010;
-    background-alt:              #252525;
-    foreground:                  #FFFFFF;
-    selected:                    #505050;
-    active:                      #909090;
-    urgent:                      #707070;
-}
+@import                          "colors.rasi"
+@import                          "fonts.rasi"
 
 /*****----- Main Window -----*****/
 window {
     /* properties for window widget */
     transparency:                "real";
-    location:                    center;
-    anchor:                      center;
+    location:                    north east;
+    anchor:                      north east;
     fullscreen:                  false;
-    width:                       400px;
-    x-offset:                    0px;
-    y-offset:                    0px;
+    width:                       200px;
+    height:                      300px;
+    x-offset:                    -12px;
+    y-offset:                    52px;
 
     /* properties for all widgets */
     enabled:                     true;
@@ -58,8 +52,8 @@ mainbox {
 }
 
 listbox {
-    spacing:                     20px;
-    padding:                     20px;
+    spacing:                     10px;
+    padding:                     10px;
     background-color:            transparent;
     orientation:                 vertical;
     children:                    [ "message", "listview", "mode-switcher" ];
@@ -69,9 +63,9 @@ listbox {
 inputbar {
     enabled:                     true;
     spacing:                     10px;
-    padding:                     100px 40px;
+    padding:                     70px 40px;
     background-color:            transparent;
-    background-image:            url("~/.config/rofi/images/g.png", width);
+    background-image:            url("~/.dotfiles/wallpaper/pp_chifuyu.jpg", width);
     text-color:                  @foreground;
     orientation:                 horizontal;
     children:                    [ "textbox-prompt-colon", "entry" ];
@@ -138,9 +132,9 @@ listview {
 /*****----- Elements -----*****/
 element {
     enabled:                     true;
-    spacing:                     10px;
-    padding:                     12px;
-    border-radius:               100%;
+    spacing:                     5px;
+    padding:                     5px;
+    border-radius:               0%;
     background-color:            transparent;
     text-color:                  @foreground;
     cursor:                      pointer;

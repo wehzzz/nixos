@@ -46,9 +46,9 @@ in
 	    XF86AudioStop          = "exec ${pkgs.playerctl}/bin/playerctl stop";
             XF86AudioNext          = "exec ${pkgs.playerctl}/bin/playerctl next";
             XF86AudioPrev          = "exec ${pkgs.playerctl}/bin/playerctl previous";
-            XF86AudioLowerVolume   = "exec ${pkgs.pulseaudioFull}/bin/pactl set-sink-volume 0 -5%";
-            XF86AudioRaiseVolume   = "exec ${pkgs.pulseaudioFull}/bin/pactl set-sink-volume 0 +5%";
-            XF86AudioMute          = "exec ${pkgs.pulseaudioFull}/bin/pactl set-sink-mute 0 toggle";
+            XF86AudioLowerVolume   = "exec amixer -q sset Master 5%-";
+            XF86AudioRaiseVolume   = "exec amixer -q sset Master 5%+";
+            XF86AudioMute          = "exec amixer -q sset Master toggle";
 
 	    XF86MonBrightnessUp    = "exec light -A 5%";
             XF86MonBrightnessDown  = "exec light -U 5%";

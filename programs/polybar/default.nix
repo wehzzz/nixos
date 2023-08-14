@@ -31,6 +31,7 @@ in {
     package = pkgs.polybar.override {
       i3Support = true;
       alsaSupport = true;
+      pulseSupport = true;
     };
 
     config = {
@@ -64,7 +65,7 @@ in {
 	font-2 = "Iosevka Nerd Font:size=15;4";
 	font-3 = "Iosevka Nerd Font:size=10;4";
 	font-4 = "Symbols Nerd Font Mono;size=14;3";
-	font-5 = "Symbols Nerd Font Mono;size=18;3";
+	font-5 = "Symbols Nerd Font Mono;size=18;4";
 
 	line-size = "2pt";
 	line-color = "${accent}";
@@ -140,24 +141,6 @@ in {
 	label-urgent-padding = 1;
       };
 
-      "module/xworkspaces" = {
-        type = "internal/xworkspaces";
-	
- 	label-active = "";
-	label-active-padding = 1;
-	label-active-foreground = "${foreground}";
-	label-active-font = 1;
-
-	label-occupied = "";
-	label-occupied-padding = 1;
-	label-occupied-font = 1;
-
-	label-empty = "";
-	label-empty-background = "${background}";
-	label-empty-padding = 1;
-	label-empty-font = 1;
-      };
-
       "modules/xwindow" = {
 	type = "internal/xwindow";
 	label = "%title:0:60:...%";
@@ -211,7 +194,7 @@ in {
       };
 
       "module/volume" = {
-	type = "internal/alsa";
+	type = "internal/pulseaudio";
 
 	use-ui-max = false;	
 
@@ -336,7 +319,14 @@ in {
 
 	label = " %percentage%%";
       };
-      
+
+      "module/bluetooth" = {
+	type = "custom/script";
+	exec = "rofi-bluetooth --status 2>/dev/null";
+	interval = 1;
+	click-left = "rofi-bluetooth &";
+      };
+ 
       "module/song-prev" = {
 	type = "custom/text";
 
@@ -348,14 +338,19 @@ in {
       };
 
       "module/song-pause" = {
-	type = "custom/text";
+	type = "custom/script";
 
-	content = " ";
-	content-background = "${altbackground}";
-	content-foreground = "${green}";
-	
+	format = "<label>";
+	label = "%output%";
+	format-background = "${altbackground}";
+	format-foreground = "${green}";
+	format-font = 1;
+	tail = true;
+	interval = 0;
+
+	exec = "~/.dotfiles/programs/polybar/scripts/music_button.sh";
 	click-left = "${pkgs.playerctl}/bin/playerctl play-pause";
-      };
+      }; 
 
       "module/song-next" = {
 	type = "custom/text";
@@ -371,8 +366,8 @@ in {
 	type = "custom/script";
 	format = "<label>";
 	label = "%output%";
-	interval = 2;
-      	exec = "~/.dotfiles/programs/polybar/scripts/music.sh";	
+      	tail = true;
+	exec = "~/.dotfiles/programs/polybar/scripts/music.sh";	
       };
 
       "module/menu" = {
@@ -382,6 +377,18 @@ in {
 	content-background = "${background}";
 	content-foreground = "${blue}";
 	content-margin = 0;
+
+	click-left = "${pkgs.rofi}/bin/rofi -show drun";
+      };
+
+      "module/sysmenu" = {
+	type = "custom/text";
+
+   	content-background = "${altbackground}";
+	content-foreground = "${red}";
+	content = "⏻ ";
+
+	click-left = "${pkgs.rofi}/bin/rofi -show menu -modi \"menu:rofi-power-menu\"";
       };
 
       "module/space" = {

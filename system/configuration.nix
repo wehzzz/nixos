@@ -69,11 +69,37 @@
   sound = {
     enable = true;
   };
-  hardware.pulseaudio.enable = true;
+  #hardware.pulseaudio = {
+    #enable = true;
+    #package = pkgs.pulseaudioFull;
+    #configFile = pkgs.writeText "default.pa" ''
+      #load-module module-bluetooth-policy
+      #load-module module-bluetooth-discover
+      ## module fails to load with 
+      ##   module-bluez5-device.c: Failed to get device path from module arguments
+      ##   module.c: Failed to load module "module-bluez5-device" (argument: ""): initialization failed.
+      # load-module module-bluez5-device
+      # load-module module-bluez5-discover
+    #'';
+  #};
+
+  environment.etc = {
+    "wireplumber/bluetooth.lua.d/51-bluez-config.lua".text = ''
+      bluez_monitor.properties = {
+        ["bluez5.enable-sbc-xq"] = true,
+        ["bluez5.enable-msbc"] = true,
+        ["bluez5.enable-hw-volume"] = true,
+        ["bluez5.headset-roles"] = "[ hsp_hs hsp_ag hfp_hf hfp_ag ]"
+      }
+    '';
+  };
+
+  hardware.bluetooth.enable = true;
   security.rtkit.enable = true;
-  
+  #services.blueman.enable = true;
+ 
   services.pipewire = {
-    enable = false;
+    enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;

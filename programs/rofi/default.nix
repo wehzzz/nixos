@@ -2,6 +2,7 @@
   programs.rofi = {
     enable = true;
     terminal = "${pkgs.alacritty}/bin/alacritty";
+    cycle = false;
   };
 
   home.file = {
@@ -9,5 +10,6 @@
     ".config/rofi/colors.rasi".source = ../../programs/rofi/colors.rasi;
     ".config/rofi/fonts.rasi".source = ../../programs/rofi/fonts.rasi;
     ".config/rofi/launcher.rasi".source = ../../programs/rofi/launcher.rasi;
+    ".config/rofi/powermenu.rasi".source = ../../programs/rofi/powermenu.rasi;
   };
 }

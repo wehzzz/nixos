@@ -32,7 +32,7 @@ window {
     fullscreen:                  false;
     height:                      300px;
     width:                       460px;
-    x-offset:                    -12px;
+    x-offset:                    -100px;
     y-offset:                    52px;
 
     /* properties for all widgets */
@@ -48,7 +48,7 @@ mainbox {
     spacing:                     0px;
     background-color:            transparent;
     orientation:                 horizontal;
-    children:                    [ "imagebox", "listbox" ];
+    children:                    ["listbox", "imagebox"];
 }
 
 imagebox {
@@ -56,7 +56,7 @@ imagebox {
     width:                       200px;
     padding:                     0px;
     background-color:            transparent;
-    background-image:            url("~/.dotfiles/wallpaper/inuki.jpg", width);
+    background-image:            url("~/.dotfiles/wallpaper/satoru.jpg", width);
     orientation:                 vertical;
     children:                    [ "inputbar", "dummy", "mode-switcher" ];
 }

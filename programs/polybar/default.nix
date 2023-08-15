@@ -324,7 +324,7 @@ in {
 	type = "custom/script";
 	exec = "rofi-bluetooth --status 2>/dev/null";
 	interval = 1;
-	click-left = "rofi-bluetooth &";
+	click-left = "rofi-bluetooth -theme bluetooth &";
       };
  
       "module/song-prev" = {

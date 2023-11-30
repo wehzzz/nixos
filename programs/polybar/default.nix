@@ -158,7 +158,7 @@ in {
 	type = "internal/network";
 	interface-type = "wireless";
 
-	interval = 1;
+	interval = 5;
 	format-connected-prefix-foreground = "${white}";
 	format-connected-foreground = "${white}";
 	format-connected = "<label-connected>";
@@ -220,7 +220,7 @@ in {
       "module/date" = {
         type = "internal/date";
         
-	interval = 1;
+	interval = 30;
 	
 	date = "%H:%M";
 	date-alt = "%a, %d %b %G";       
@@ -346,9 +346,8 @@ in {
 	format-foreground = "${green}";
 	format-font = 1;
 	tail = true;
-	interval = 0;
 
-	exec = "~/.dotfiles/programs/polybar/scripts/music_button.sh";
+	#exec = "~/.dotfiles/programs/polybar/scripts/music_button.sh";
 	click-left = "${pkgs.playerctl}/bin/playerctl play-pause";
       }; 
 
@@ -366,7 +365,7 @@ in {
 	type = "custom/script";
 	format = "<label>";
 	label = "%output%";
-      	tail = true;
+    interval = 10;
 	exec = "~/.dotfiles/programs/polybar/scripts/music.sh";	
       };
 

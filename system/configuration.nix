@@ -15,6 +15,7 @@
     package = pkgs.nixFlakes; # or versioned attributes like nix_2_7
     extraOptions = ''
       experimental-features = nix-command flakes
+      access-tokens = Esovx8LMyGS_j1Gxr36u
     '';
   };
 
@@ -118,15 +119,16 @@
   users.users.tinmar = {
     isNormalUser = true;
     description = "Martin";
-    extraGroups = [ "networkmanager" "wheel" "video"];
+    extraGroups = [ "docker" "networkmanager" "wheel" "video"];
     packages = with pkgs; [
     #  thunderbird
     ];
   };
 
+  virtualisation.docker.enable = true;
+
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [

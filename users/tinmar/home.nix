@@ -1,5 +1,4 @@
 { config, pkgs, lib, ... }:
-
 {
  
   imports = [
@@ -15,8 +14,11 @@
   # The home.packages option allows you to install Nix packages into your
   # environment.
   home.packages = with pkgs; [
+    man-pages
+    man-pages-posix
     google-chrome
-    #System command
+    gdb
+#System command
     htop
     wget
     neofetch
@@ -32,7 +34,9 @@
     unrar
     findutils
     p7zip
-
+    qemu
+    #pikaboot
+    openssl.dev
     #command line env
 
     #dev
@@ -51,7 +55,7 @@
     rofi-bluetooth
     rofi-pulse-select
     networkmanager_dmenu  
- 
+    xfce.thunar
     killall 
     geany
     discord
@@ -64,10 +68,41 @@
     #misc
     nerdfonts
     roboto
+    
+    #acdc
+    clang-tools
+    dash
+    shellcheck
+    perl
+    graphviz
+    python3
+    python311Packages.pip
+    poetry
+    jetbrains.pycharm-community
+    docker
+    jetbrains.rider    
+    vlc
     ];
+  
+  nixpkgs.overlays = let
+    files = {
+      "jdk-11.0.20_linux-x64_bin.tar.gz"            = ../../../Downloads/java/jdk-11.0.20_linux-x64_bin.tar.gz;
+    };
+  in [
+    (self: super: {
+      requireFile = args @ {name, url, sha1 ? null, sha256 ? null}:
+        if files?${name} then
+          self.stdenvNoCC.mkDerivation {
+            inherit name;
+            outputHashMode = "flat";
+            outputHashAlgo = if sha256 != null then "sha256" else "sha1";
+            outputHash     = if sha256 != null then  sha256  else  sha1 ;
+            buildCommand   = "cp ${files.${name}} $out";
+          }
+        else
+          super.requireFile args;
+    })
 
-  fonts.fontconfig.enable = true;
-  nixpkgs.overlays = [
     (self: super: {
       discord = super.discord.overrideAttrs (
         _: { src = builtins.fetchTarball {
@@ -75,9 +110,11 @@
           sha256 = "0pml1x6pzmdp6h19257by1x5b25smi2y60l1z40mi58aimdp59ss";
         }; }
       );
-    })
-  ];   
+    })   
+  ];
 
+  fonts.fontconfig.enable = true;
+  
   programs = {
     home-manager.enable = true;
   }; 

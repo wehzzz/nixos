@@ -7,10 +7,6 @@
     
     userEmail = "martin.levesque@epita.fr";
     userName = "Martin Levesque";
-    signing = {
-      key = "18545AB32293B04D";
-      signByDefault = true;
-    };
     
     delta = {
       enable = true;

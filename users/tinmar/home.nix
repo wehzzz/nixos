@@ -18,6 +18,7 @@
     man-pages-posix
     google-chrome
     gdb
+
 #System command
     htop
     wget
@@ -40,14 +41,21 @@
     #command line env
 
     #dev
+    cmake
+    nlohmann_json
+    jansson
     vim
     gnupg
     pinentry
     gcc
     gnumake
-    vscode
     docker-compose
     inxi
+    nodejs_20
+    yarn
+    pngpp
+    gpp
+
     #desktop
     firefox
     rofi-power-menu
@@ -82,6 +90,10 @@
     docker
     jetbrains.rider    
     vlc
+    jetbrains.idea-ultimate
+    jdk17
+    maven
+    postgresql
     ];
   
   nixpkgs.overlays = let
@@ -117,6 +129,7 @@
   
   programs = {
     home-manager.enable = true;
+    vscode.enable = true;
   }; 
 
   systemd.user.services.polybar = {

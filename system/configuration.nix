@@ -12,18 +12,27 @@
 
   # Flakes
   nix = {
-    package = pkgs.nixFlakes; # or versioned attributes like nix_2_7
+    package = pkgs.nixVersions.latest; # or versioned attributes like nix_2_7
     extraOptions = ''
       experimental-features = nix-command flakes
       access-tokens = Esovx8LMyGS_j1Gxr36u
     '';
   };
 
+  fonts.packages = with pkgs; [ nerd-fonts.jetbrains-mono ];
+
   # Bootloader.
   # Default UEFI setup 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   
+  boot.initrd.secrets = {
+    "/crypto_keyfile.bin" = null;
+  };
+
+  boot.initrd.luks.devices."luks-db99a594-b45e-4e6d-8ad8-6fb3f9eb3b2e".device = "/dev/disk/by-uuid/db99a594-b45e-4e6d-8ad8-6fb3f9eb3b2e";
+  boot.initrd.luks.devices."luks-db99a594-b45e-4e6d-8ad8-6fb3f9eb3b2e".keyFile = "/crypto_keyfile.bin";
+
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -66,10 +75,6 @@
   # Enable CUPS to print documents.
   services.printing.enable = true;
 
-  # Enable sound with pipewire.
-  sound = {
-    enable = true;
-  };
   #hardware.pulseaudio = {
     #enable = true;
     #package = pkgs.pulseaudioFull;
@@ -118,7 +123,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.tinmar = {
     isNormalUser = true;
-    description = "Martin";
+    description = "Martin Levesque";
     extraGroups = [ "docker" "networkmanager" "wheel" "video"];
     packages = with pkgs; [
     #  thunderbird

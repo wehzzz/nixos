@@ -46,7 +46,7 @@ in
         size = 10.0;
       };
 
-      shell = {
+      terminal.shell = {
         program = "${pkgs.zsh}/bin/zsh";
       };
 

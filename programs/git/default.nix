@@ -24,7 +24,7 @@
 
     extraConfig = {
       push.autoSetupRemote = true;
-      init.defaultbranch = "main";
+      init.defaultbranch = "master";
       };
   };
 }

@@ -70,7 +70,7 @@ in
             "${modifier}+v" = "split v";
             "${modifier}+f" = "fullscreen toggle";
             "${modifier}+ctrl+space" = "floating toggle";
-            "${modifier}+Shift+a" = "kill";
+            "${modifier}+Shift+q" = "kill";
             "${modifier}+Shift+e" = "exec i3-nagbar -t warning -m 'Do you want to exit i3?' -b 'Yes' 'i3-msg exit'";
             "${modifier}+Shift+c" = "reload";
             "${modifier}+Shift+r" = "restart";

@@ -16,7 +16,6 @@
   home.packages = with pkgs; [
     man-pages
     man-pages-posix
-    google-chrome
     gdb
 
 #System command
@@ -74,7 +73,6 @@
     playerctl    
  
     #misc
-    nerdfonts
     roboto
     
     #acdc
@@ -88,17 +86,16 @@
     poetry
     jetbrains.pycharm-community
     docker
-    jetbrains.rider    
     vlc
-    jetbrains.idea-ultimate
-    jdk17
     maven
     postgresql
+    jetbrains.idea-ultimate
+    jdk21
     ];
   
   nixpkgs.overlays = let
     files = {
-      "jdk-11.0.20_linux-x64_bin.tar.gz"            = ../../../Downloads/java/jdk-11.0.20_linux-x64_bin.tar.gz;
+      "jdk-21_linux-aarch64_bin.tar.gz"            = ../../../Downloads/java/jdk-21_linux-aarch64_bin.tar.gz;
     };
   in [
     (self: super: {
@@ -119,7 +116,7 @@
       discord = super.discord.overrideAttrs (
         _: { src = builtins.fetchTarball {
           url = "https://discord.com/api/download?platform=linux&format=tar.gz";
-          sha256 = "0pml1x6pzmdp6h19257by1x5b25smi2y60l1z40mi58aimdp59ss";
+          sha256 = "1f7xqzi3djxqpw1j0cjqvxfq05gdl0v373rqbf3gk8b5mbpcj7i8";
         }; }
       );
     })   

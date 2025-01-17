@@ -2,7 +2,7 @@
 {
   programs.zsh = {
     enable = true;
-    enableAutosuggestions = true;
+    autosuggestion.enable = true;
     enableCompletion = true;
     syntaxHighlighting.enable = true;
 
@@ -21,6 +21,7 @@
     shellAliases = {
       ll = "ls -l";
       lsa = "ls -lah";
+      shell = "nix-shell --run zsh";
     };
 
     oh-my-zsh = {

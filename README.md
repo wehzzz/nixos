@@ -28,3 +28,11 @@ Finally you just have to execute the following command in order to build your co
 sudo ./apply-system.sh
 ./apply-user.sh
 ```
+
+# UPDATE
+```
+sudo nix-channel --update
+nix flake update
+sudo nixos-rebuild switch --flake .#
+./apply-user
+```

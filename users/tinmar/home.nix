@@ -91,6 +91,9 @@
     postgresql
     jetbrains.idea-ultimate
     jdk21
+    slack
+    quarkus
+    helix
     ];
   
   nixpkgs.overlays = let

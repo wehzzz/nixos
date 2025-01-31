@@ -7,5 +7,6 @@
     ./polybar
     ./i3
     ./rofi
+    ./helix
   ];
 }

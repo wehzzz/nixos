@@ -24,6 +24,12 @@
       shell = "nix-shell --run zsh";
     };
 
+    initExtra = ''
+      export PGDATA="$HOME/postgres_data"
+      export PGHOST="/tmp"
+      export PGPORT="5432"
+    '';
+
     oh-my-zsh = {
       enable = true;
 

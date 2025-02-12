@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 
 let
-    wallpaper = "/$HOME/.dotfiles/wallpaper/wallpaper_epita.jpg";
+    wallpaper = "/$HOME/.dotfiles/wallpaper/wallpaper_arcane.jpg";
 in
 {
   programs.i3status.enable = true;
@@ -47,9 +47,9 @@ in
 	    XF86AudioStop          = "exec ${pkgs.playerctl}/bin/playerctl stop";
             XF86AudioNext          = "exec ${pkgs.playerctl}/bin/playerctl next";
             XF86AudioPrev          = "exec ${pkgs.playerctl}/bin/playerctl previous";
-            XF86AudioLowerVolume   = "exec amixer -q sset Master 5%-";
-            XF86AudioRaiseVolume   = "exec amixer -q sset Master 5%+";
-            XF86AudioMute          = "exec amixer -q sset Master toggle";
+            XF86AudioRaiseVolume   = "exec --no-startup-id ~/.dotfiles/programs/i3/scripts/volume_control.sh up";
+            XF86AudioLowerVolume   = "exec --no-startup-id ~/.dotfiles/programs/i3/scripts/volume_control.sh down";
+            XF86AudioMute          = "exec --no-startup-id wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle";
 
 	    XF86MonBrightnessUp    = "exec light -A 5%";
             XF86MonBrightnessDown  = "exec light -U 5%";
@@ -84,6 +84,7 @@ in
 	    # Copy to clipboard
             "Print"                = "exec --no-startup-id flameshot gui -c";
 	    # save in Pictures folder
+	    "Ctrl+${modifier}+l"   = "exec --no-startup-id i3lock";
 	    "Ctrl+Print"           = "exec --no-startup-id flameshot gui -p \"/$HOME/Pictures/\"";	
 
 	    "${modifier}+d"       = "exec --no-startup-id dmenu_run";

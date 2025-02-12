@@ -19,6 +19,7 @@
     gdb
 
 #System command
+    bc
     htop
     wget
     neofetch

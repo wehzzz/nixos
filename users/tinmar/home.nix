@@ -17,6 +17,7 @@
     man-pages
     man-pages-posix
     gdb
+    gimp
 
 #System command
     bc

@@ -2,6 +2,7 @@
 
 let
     wallpaper = "/$HOME/.dotfiles/wallpaper/wallpaper_arcane.jpg";
+    i3lock = "/$HOME/.dotfiles/wallpaper/i3lock_arcane.png";
 in
 {
   programs.i3status.enable = true;
@@ -84,7 +85,7 @@ in
 	    # Copy to clipboard
             "Print"                = "exec --no-startup-id flameshot gui -c";
 	    # save in Pictures folder
-	    "Ctrl+${modifier}+l"   = "exec --no-startup-id i3lock";
+	    "Ctrl+${modifier}+l"   = "exec --no-startup-id i3lock -t -i ${i3lock}";
 	    "Ctrl+Print"           = "exec --no-startup-id flameshot gui -p \"/$HOME/Pictures/\"";	
 
 	    "${modifier}+d"       = "exec --no-startup-id dmenu_run";

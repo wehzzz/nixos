@@ -10,28 +10,24 @@
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "usbhid" "uas" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" 
-  ];
+  boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
   boot.blacklistedKernelModules = [];
-  
+
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/6df98b46-e730-4e5c-8e8c-0e0c2d9570cc";
+    { device = "/dev/disk/by-uuid/6a7f29f5-f9e7-43bd-9483-cea3f40c486e";
       fsType = "ext4";
     };
 
-  boot.initrd.luks.devices."luks-20cdc752-b82e-4994-b71d-31e9dd4ae785".device = "/dev/disk/by-uuid/20cdc752-b82e-4994-b71d-31e9dd4ae785";
+  boot.initrd.luks.devices."luks-404d1c18-e34e-4a47-be48-0f1583f21c58".device = "/dev/disk/by-uuid/404d1c18-e34e-4a47-be48-0f1583f21c58";
 
   fileSystems."/boot" =
     { device = "/dev/disk/by-uuid/1F5B-7B5D";
       fsType = "vfat";
     };
 
-  swapDevices =
-    [ { device = "/dev/disk/by-uuid/47d7d501-8565-4f84-b066-f531abd00b46"; }
-    ];
-
-
+  swapDevices = [ ];
+  
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
   # (the default) this is the recommended approach. When using systemd-networkd it's
   # still possible to use this option, but it's recommended to use it in conjunction
@@ -42,4 +38,5 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.nvidia.open = true;
 }

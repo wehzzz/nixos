@@ -18,6 +18,9 @@
     man-pages-posix
     gdb
     gimp
+    elasticsearch
+    neo4j
+    redis
 
 #System command
     bc
@@ -92,7 +95,7 @@
     maven
     postgresql
     jetbrains.idea-ultimate
-    jdk21
+    jdk17
     slack
     quarkus
     helix
@@ -121,7 +124,7 @@
       discord = super.discord.overrideAttrs (
         _: { src = builtins.fetchTarball {
           url = "https://discord.com/api/download?platform=linux&format=tar.gz";
-          sha256 = "1f7xqzi3djxqpw1j0cjqvxfq05gdl0v373rqbf3gk8b5mbpcj7i8";
+          sha256 = "1l7cinn66qynp2iyqbybw577q2d8z6b17c7h446m0b28adxvrxcv";
         }; }
       );
     })   

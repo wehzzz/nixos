@@ -30,9 +30,6 @@
     "/crypto_keyfile.bin" = null;
   };
 
-  boot.initrd.luks.devices."luks-db99a594-b45e-4e6d-8ad8-6fb3f9eb3b2e".device = "/dev/disk/by-uuid/db99a594-b45e-4e6d-8ad8-6fb3f9eb3b2e";
-  boot.initrd.luks.devices."luks-db99a594-b45e-4e6d-8ad8-6fb3f9eb3b2e".keyFile = "/crypto_keyfile.bin";
-
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
@@ -123,7 +120,7 @@
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.tinmar = {
     isNormalUser = true;
-    description = "Martin Levesque";
+    description = "tinmar";
     extraGroups = [ "docker" "networkmanager" "wheel" "video"];
     packages = with pkgs; [
     #  thunderbird
